@@ -1,0 +1,42 @@
+<html>
+  <title>Rochester feeder timer</title>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"/></script>
+  </head>
+  <body style="font-family: monospace;">
+    buttcatt feeder status - last command sent:<br>
+    <div id="display">ready</div>
+    <script>
+      var onSec = 3;
+      var offSec = 54;
+
+      function trigger(action, callback) {
+        $.ajax({
+          crossDomain: true,
+          complete: callback,
+          url: "https://maker.ifttt.com/trigger/" + action + "/with/key/bHVSnerTzjl27FWY06TXtw"
+        });
+      }
+
+      function turnOn() {
+        trigger("on", turnOnSuccess);
+      }
+
+      function turnOnSuccess() {
+        $("#display").text("on");
+        setTimeout(turnOff, onSec * 1000);
+      }
+
+      function turnOff() {
+        trigger("off", turnOffSuccess);
+      }
+
+      function turnOffSuccess() {
+        $("#display").text("off");
+        setTimeout(turnOn, offSec * 1000);
+      }
+
+      turnOn();
+    </script>
+  </body>
+</html>
