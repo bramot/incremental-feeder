@@ -5,9 +5,12 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"/></script>
   </head>
   <body style="font-family: monospace;">
-    buttcatt feeder status - last command sent:<br>
-    <div id="display">ready</div>
+    buttcatt feeder status:<p>
+    last command sent: <span id="display">ready</span>
+    <br>
+    on commands since page load: <span id="ons">0</span>
     <script>
+      var ons = 0;
       var onSec = 7;
       var offSec = 50;
 
@@ -25,6 +28,8 @@
 
       function turnOnSuccess() {
         $("#display").text("on");
+        ons++;
+        $("#ons").text(ons);
         setTimeout(turnOff, onSec * 1000);
       }
 
