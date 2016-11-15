@@ -9,10 +9,27 @@
     last command sent: <span id="display">ready</span>
     <br>
     on commands since page load: <span id="ons">0</span>
+    <br>
+    <span id="sec"></span>
+    <p>
+    <a href="#" onclick="toggle($(this))">stop</a>
     <script>
       var ons = 0;
       var onSec = 7;
       var offSec = 50;
+      var serviceTimeout;
+
+      function toggle(e) {
+        if ("stop"===e.text()) {
+          if ("on"!==$("#display").text()) {
+            e.text("resume");
+            clearTimeout(serviceTimeout);
+          }
+        } else {
+          e.text("stop");
+          turnOn();
+        }
+      }
 
       function trigger(action, callback) {
         $.ajax({
@@ -30,7 +47,7 @@
         $("#display").text("on");
         ons++;
         $("#ons").text(ons);
-        setTimeout(turnOff, onSec * 1000);
+        serviceTimeout = setTimeout(turnOff, onSec * 1000);
       }
 
       function turnOff() {
@@ -39,7 +56,7 @@
 
       function turnOffSuccess() {
         $("#display").text("off");
-        setTimeout(turnOn, offSec * 1000);
+        serviceTimeout = setTimeout(turnOn, offSec * 1000);
       }
 
       turnOn();
