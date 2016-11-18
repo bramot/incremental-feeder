@@ -10,7 +10,7 @@
     <br>
     on commands since page load: <span id="ons">0</span>
     <br>
-    <span id="sec"></span>
+    delay before start: <input type="text" id="delay" value="1" size="3">s
     <p>
     <a href="#" onclick="toggle($(this))">stop</a>
     <script>
@@ -27,7 +27,7 @@
           }
         } else {
           e.text("stop");
-          turnOn();
+          turnOnDelay();
         }
       }
 
@@ -39,27 +39,31 @@
         });
       }
 
+      function turnOnDelay() {
+        serviceTimeout = setTimeout(turnOn, parseInt($('#delay').val()) * 1000);
+      }
+
       function turnOn() {
+        $("#display").text("on");
         trigger("feeder_on", turnOnSuccess);
       }
 
       function turnOnSuccess() {
-        $("#display").text("on");
         ons++;
         $("#ons").text(ons);
         serviceTimeout = setTimeout(turnOff, onSec * 1000);
       }
 
       function turnOff() {
+        $("#display").text("off");
         trigger("feeder_off", turnOffSuccess);
       }
 
       function turnOffSuccess() {
-        $("#display").text("off");
         serviceTimeout = setTimeout(turnOn, offSec * 1000);
       }
 
-      turnOn();
+      turnOnDelay();
     </script>
   </body>
 </html>
