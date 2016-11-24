@@ -5,7 +5,8 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"/></script>
   </head>
   <body style="font-family: monospace;">
-    <div id="offProgress" style="white-space: nowrap; background-color: lightgrey;">buttcatt feeder reset status</div>
+    <div id="appName"></div>
+    <div id="offProgress" style="background-color: lightgrey;">status</div>
     <br>
     last command sent: <span id="display">(ready)</span>
     <br>
@@ -15,6 +16,22 @@
     <p>
     <a href="#" onclick="toggle($(this))">resume</a>
     <script>
+      var feederNames = [
+        "Buttcat",
+        "Buttcatt",
+        "Vomit McVomitFace",
+        "Pukey McPukeFace",
+        "Catty McPain In The Ass",
+        "The Vacillating Vomiting Feline of Auburn Road",
+        "His Catjesty",
+        "Mister Edward Fairfax Rochester",
+        "Rochester who's not gonna get with Jane if he vomits all over her stuff"
+      ];
+      function namePick() {
+        $("#appName").text(feederNames[Math.floor(Math.random() * feederNames.length)] + ":");
+      }
+      namePick();
+
       var debug = false;
       var ons = 0;
       var onSec  = debug ? 1 : 7;
@@ -75,6 +92,7 @@
 
       function offProgressDisplay() {
         offProgressPercent(0);
+        namePick();
         clearTimeout(offProgressTimeout);
         offProgressEnd = Date.now() + offSec*1000;
         offProgressTimeout = setInterval(offProgressTick, 700);
