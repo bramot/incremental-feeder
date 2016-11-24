@@ -5,20 +5,23 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"/></script>
   </head>
   <body style="font-family: monospace;">
-    buttcatt feeder status:<p>
-    last command sent: <span id="display">ready</span>
+    <div id="offProgress" style="white-space: nowrap; background-color: lightgrey;">buttcatt feeder reset status</div>
+    <br>
+    last command sent: <span id="display">(ready)</span>
     <br>
     on commands since page load: <span id="ons">0</span>
     <br>
-    delay before start: <input type="text" id="delay" value="1" size="3">s
+    delay after next resume: <input type="text" id="delay" value="0" size="3">s
     <p>
-    <a href="#" onclick="toggle($(this))">stop</a>
+    <a href="#" onclick="toggle($(this))">resume</a>
     <script>
       var debug = false;
       var ons = 0;
       var onSec  = debug ? 1 : 7;
-      var offSec = debug ? 3 : 50;
+      var offSec = debug ? 7 : 50;
       var serviceTimeout;
+      var offProgressEnd;
+      var offProgressTimeout;
 
       function toggle(e) {
         if ("stop"===e.text()) {
@@ -67,9 +70,30 @@
 
       function turnOffSuccess() {
         serviceTimeout = setTimeout(turnOn, offSec * 1000);
+        offProgressDisplay();
       }
 
-      turnOnDelay();
+      function offProgressDisplay() {
+        offProgressPercent(0);
+        clearTimeout(offProgressTimeout);
+        offProgressEnd = Date.now() + offSec*1000;
+        offProgressTimeout = setInterval(offProgressTick, 700);
+      }
+
+      function offProgressTick() {
+        if (Date.now() > offProgressEnd) {
+          clearTimeout(offProgressTimeout);
+          offProgressPercent(0);
+        } else {
+          offProgressPercent(100 - (offProgressEnd - Date.now()) / 10 / offSec);
+        }
+      }
+
+      function offProgressPercent(p) {
+        $("#offProgress").css("width", p + "%");
+      }
+
+      offProgressPercent(0);
     </script>
   </body>
 </html>
