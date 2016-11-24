@@ -14,9 +14,10 @@
     <p>
     <a href="#" onclick="toggle($(this))">stop</a>
     <script>
+      var debug = false;
       var ons = 0;
-      var onSec = 7;
-      var offSec = 50;
+      var onSec  = debug ? 1 : 7;
+      var offSec = debug ? 3 : 50;
       var serviceTimeout;
 
       function toggle(e) {
@@ -32,11 +33,16 @@
       }
 
       function trigger(action, callback) {
-        $.ajax({
-          crossDomain: true,
-          complete: callback,
-          url: "https://maker.ifttt.com/trigger/" + action + "/with/key/bHVSnerTzjl27FWY06TXtw"
-        });
+        if (debug) {
+          console.log(action);
+          callback();
+        } else {
+          $.ajax({
+            crossDomain: true,
+            complete: callback,
+            url: "https://maker.ifttt.com/trigger/" + action + "/with/key/bHVSnerTzjl27FWY06TXtw"
+          });
+        }
       }
 
       function turnOnDelay() {
