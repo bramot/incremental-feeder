@@ -6,7 +6,7 @@
   </head>
   <body style="font-family: monospace;">
     <div id="appName"></div>
-    <div id="offProgress" style="background-color: lightgrey;">status</div>
+    <div id="offProgress" style="background-color: lightgrey;">feeder reset period</div>
     <br>
     last command sent: <span id="display">(ready)</span>
     <br>
@@ -25,6 +25,14 @@
         "The Vacillating Vomiting Feline of Auburn Road",
         "His Catjesty",
         "Mister Edward Fairfax Rochester",
+        "PITA",
+        "The cat who loved me - and then puked",
+        "El paino en el asso royale with cheese",
+        "Mr. Cat",
+        "Rochestirkovich",
+        "Rochester",
+        "little buddy",
+        "The Calculating Calico of Auburn.. no, he's dumb",
         "Rochester who's not gonna get with Jane if he vomits all over her stuff"
       ];
       function namePick() {
@@ -43,8 +51,8 @@
       function toggle(e) {
         if ("stop"===e.text()) {
           if ("on"!==$("#display").text()) {
-            e.text("resume");
             clearTimeout(serviceTimeout);
+            e.text("resume");
           }
         } else {
           e.text("stop");
